@@ -1,7 +1,7 @@
 package com.vank.careerConnectPlatform.userService.exception;
 
-import com.vank.careerConnectPlatform.postsService.exception.ApiError;
-import com.vank.careerConnectPlatform.postsService.exception.ResourceNotFoundException;
+import com.vank.careerConnectPlatform.userService.exception.ApiError;
+import com.vank.careerConnectPlatform.userService.exception.ResourceNotFoundException;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
