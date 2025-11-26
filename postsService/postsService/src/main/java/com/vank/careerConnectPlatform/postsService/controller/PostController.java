@@ -1,5 +1,6 @@
 package com.vank.careerConnectPlatform.postsService.controller;
 
+import com.vank.careerConnectPlatform.postsService.auth.AuthContextHolder;
 import com.vank.careerConnectPlatform.postsService.dto.PostCreateRequestDto;
 import com.vank.careerConnectPlatform.postsService.dto.PostDto;
 import com.vank.careerConnectPlatform.postsService.service.PostService;
@@ -27,9 +28,11 @@ public class PostController {
 
     @GetMapping("/{postId}")
     public ResponseEntity<PostDto> getPost(@PathVariable Long postId){
+        Long userId = AuthContextHolder.getCurrentUserId();
         PostDto postDto = postService.getPostById(postId);
         return ResponseEntity.ok(postDto);
     }
+
     @GetMapping("/users/{userId}/allPosts")
     public ResponseEntity<List<PostDto>> getAllPostsOfUser(@PathVariable Long userId){
         List<PostDto> posts = postService.getAllPostsOfUser(userId);
