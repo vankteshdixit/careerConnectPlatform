@@ -6,12 +6,14 @@ import com.vank.careerConnectPlatform.postsService.dto.PersonDto;
 import com.vank.careerConnectPlatform.postsService.dto.PostCreateRequestDto;
 import com.vank.careerConnectPlatform.postsService.dto.PostDto;
 import com.vank.careerConnectPlatform.postsService.entity.Post;
+import com.vank.careerConnectPlatform.postsService.event.PostCreated;
 import com.vank.careerConnectPlatform.postsService.exception.ResourceNotFoundException;
 import com.vank.careerConnectPlatform.postsService.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final ModelMapper modelMapper;
     private final ConnectionsServiceClient connectionsServiceClient;
+    private final KafkaTemplate<Long, PostCreated> postCreatedKafkaTemplate;
 
     public PostDto createPost(PostCreateRequestDto postCreateRequestDto, Long userId) {
         log.info("Creating post for user with id: {}", userId);
