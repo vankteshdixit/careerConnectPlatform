@@ -34,18 +34,24 @@ public class PostService {
         Post post = modelMapper.map(postCreateRequestDto, Post.class);
         post.setUserId(userId);
         post = postRepository.save(post);
+
+        List<PersonDto> personDtoList = connectionsServiceClient.getFirstDegreeConnections(userId);
+
+        for(PersonDto person : personDtoList){ // send notification to each connection
+            PostCreated postCreated = PostCreated.builder()
+                    .postId(post.getId())
+                    .content(post.getContent())
+                    .userId(person.getUserId())
+                    .ownerUserId(userId)
+                    .build();
+            postCreatedKafkaTemplate.send("post_created_topic", postCreated);
+        }
+
         return modelMapper.map(post, PostDto.class);
     }
 
     public PostDto getPostById(Long postId) {
         log.info("Getting the post with ID: {}", postId);
-
-        Long userId = AuthContextHolder.getCurrentUserId();
-
-//        TODO: Remove in future
-//        Call the Connections service fro the Posts service and pass the userId inside the headers
-
-        List<PersonDto> personDtoList = connectionsServiceClient.getFirstDegreeConnections(userId);
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(() ->
