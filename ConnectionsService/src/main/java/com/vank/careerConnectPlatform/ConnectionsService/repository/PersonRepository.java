@@ -21,7 +21,7 @@ public interface PersonRepository extends Neo4jRepository<Person, Long> {
             "RETURN count(r) > 0")
     boolean connectionRequestExists(Long senderId, Long receiverId);
 
-    @Query("MATCH (p1:Person)-[:CONNECTED_TO]-(p2:Person) " +
+    @Query("MATCH (p1:Person)-[r:CONNECTED_TO]-(p2:Person) " +
             "WHERE p1.userId = $senderId AND p2.userId = $receiverId " +
             "RETURN count(r) > 0")
     boolean alreadyConnected(Long senderId, Long receiverId);
