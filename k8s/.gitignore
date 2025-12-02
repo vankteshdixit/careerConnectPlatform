@@ -1,0 +1,4 @@
+k8s/connections-db.yml
+k8s/notification-db.yml
+k8s/posts-db.yml
+k8s/user-db.yml
